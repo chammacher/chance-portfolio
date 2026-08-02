@@ -1,44 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
 
 export default function SkillsPage() {
-    useEffect(() => {
-        document.addEventListener("DOMContentLoaded", () => {
-            const stats = document.querySelectorAll(".font-display");
-            stats.forEach((stat) => {
-                const target = parseFloat(
-                    stat.innerText.replace(/[^\d.]/g, ""),
-                );
-                if (isNaN(target)) return;
-
-                let current = 0;
-                const duration = 2000;
-                const increment = target / (duration / 16);
-
-                const update = () => {
-                    current += increment;
-                    if (current < target) {
-                        stat.innerText = stat.innerText.includes("+")
-                            ? Math.floor(current) + "+"
-                            : stat.innerText.includes("k")
-                              ? current.toFixed(1) + "k"
-                              : stat.innerText.length > 2
-                                ? Math.floor(current)
-                                      .toString()
-                                      .padStart(2, "0")
-                                : Math.floor(current);
-                        requestAnimationFrame(update);
-                    } else {
-                        // Original formatting preserved
-                        // (Target values are small enough to just snap back at end)
-                    }
-                };
-                // Interaction observer could be used here for scroll-triggering
-            });
-        });
-    });
-
     return (
         <main className="mt-24 max-w-container-max mx-auto px-gutter">
             {/* <!-- Hero Section / Professional Bio --> */}
