@@ -9,7 +9,6 @@ export default function ContactPage() {
         text: string;
     } | null>(null);
 
-    
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setFormMessage(null);
