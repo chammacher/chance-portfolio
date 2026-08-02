@@ -16,6 +16,28 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+## Contact Form Email Setup
+
+The contact form submits to `POST /api/contact` and sends mail using Gmail OAuth2.
+
+Create a `.env.local` file in the project root:
+
+```bash
+SMTP_USER=you@example.com
+GOOGLE_OAUTH_CLIENT_ID=your-google-client-id
+GOOGLE_OAUTH_CLIENT_SECRET=your-google-client-secret
+GOOGLE_OAUTH_REFRESH_TOKEN=your-google-refresh-token
+SMTP_FROM_EMAIL=you@example.com
+CONTACT_TO_EMAIL=you@example.com
+```
+
+Notes:
+
+- `CONTACT_TO_EMAIL` is where form submissions are delivered (set this to your own email).
+- `SMTP_USER` should be the Gmail address tied to your OAuth credentials.
+- Generate a refresh token with Gmail scope (`https://mail.google.com/`).
+- Restart `npm run dev` after changing environment variables.
+
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
