@@ -2,6 +2,8 @@ import {
     ExperienceSection,
     ProjectItem,
     SkillSection,
+    HighlightLink,
+    TechnicalInterest,
 } from "./types";
 
 export const experience: ExperienceSection[] = [
