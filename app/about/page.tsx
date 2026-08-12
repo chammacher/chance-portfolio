@@ -1,7 +1,184 @@
 "use client";
 
+import { useState } from "react";
+import { useTheme } from "next-themes";
+import { technicalInterests } from "@/lib/data";
 
 export default function SkillsPage() {
+    const { theme, resolvedTheme } = useTheme();
+    const currentTheme =
+        theme === "system" ? (resolvedTheme ?? "light") : (theme ?? "light");
+    const [expandedInterest, setExpandedInterest] = useState<number | null>(null);
+
+    const toggleInterest = (index: number) => {
+        setExpandedInterest((current) => (current === index ? null : index));
+    };
+
+    if (currentTheme === "light") {
+        return (
+            <main className="flex-grow w-full max-w-container-max mx-auto px-md md:px-lg py-xl">
+                {/* <!-- Header --> */}
+                <header className="mb-xl flex flex-col md:flex-row gap-xl items-start">
+                    <div className="flex-shrink-0">
+                        <div className="w-32 h-32 md:w-48 md:h-48 rounded-xl overflow-hidden shadow-sm border border-outline-variant">
+                            <img
+                                className="w-full h-full object-cover grayscale"
+                                data-alt="A highly detailed black and white portrait photo of a professional designer in a bright, minimalist studio space. The lighting is soft and even, highlighting their thoughtful expression. The background is a clean white wall with a subtle hint of a modern desk setup. The image feels authentic, calm, and sophisticated, aligning perfectly with a clean light-mode UI aesthetic."
+                                src="https://api.dicebear.com/10.x/glyphs/svg?seed=rbwoctsc"
+                            />
+                        </div>
+                    </div>
+                    <div className="flex-grow">
+                        <div className="flex items-center gap-sm mb-sm">
+                            <span className="text-3xl">👋</span>
+                            <h1 className="font-h1 text-h1-mobile md:text-h1 text-on-surface">
+                                Hello, I'm Chance.
+                            </h1>
+                        </div>
+                        <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mt-md">
+                            I am a Senior software engineer with 11+ years of
+                            experience designing, developing, and operating
+                            production software, including 8+ years building
+                            healthcare-focused SaaS applications. Experienced in
+                            end-to-end ownership across React and TypeScript
+                            frontends, Node.js backend services, REST APIs,
+                            PostgreSQL, AWS, Kubernetes, and CI/CD. Proven
+                            ability to translate business requirements into
+                            maintainable software, lead technical initiatives,
+                            modernize application architecture and user
+                            experiences, and deliver secure solutions in
+                            regulated environments.
+                        </p>
+                        <div className="mt-md flex gap-sm">
+                            <span className="inline-flex items-center gap-xs px-3 py-1 rounded-xl bg-surface-container-high text-on-surface font-body-sm text-body-sm border border-outline-variant">
+                                <span className="material-symbols-outlined text-[16px]">
+                                    location_on
+                                </span>
+                                Madison, WI
+                            </span>
+                            <span className="inline-flex items-center gap-xs px-3 py-1 rounded-xl bg-surface-container-high text-on-surface font-body-sm text-body-sm border border-outline-variant">
+                                <span className="material-symbols-outlined text-[16px]">
+                                    work
+                                </span>
+                                Available for Work
+                            </span>
+                        </div>
+                    </div>
+                </header>
+                <div className="w-full h-px bg-outline-variant my-xl"></div>
+                {/* <!-- By the Numbers (Notion Callouts) --> */}
+                <section className="mb-xl">
+                    <h2 className="font-h2 text-h2 text-on-surface mb-md">
+                        By the Numbers
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-md notion-indent">
+                        {/* <!-- Callout 1 --> */}
+                        <div className="flex items-start gap-md p-md bg-surface-container-low rounded-lg transition-colors hover:bg-surface-container">
+                            <span className="text-2xl mt-1">⏳</span>
+                            <div>
+                                <div className="font-h3 text-h3 text-on-surface">
+                                    08+
+                                </div>
+                                <div className="font-body-sm text-body-sm text-on-surface-variant">
+                                    Years of Experience
+                                </div>
+                            </div>
+                        </div>
+                        {/* <!-- Callout 2 --> */}
+                        <div className="flex items-start gap-md p-md bg-surface-container-low rounded-lg transition-colors hover:bg-surface-container">
+                            <span className="text-2xl mt-1">🚀</span>
+                            <div>
+                                <div className="font-h3 text-h3 text-on-surface">
+                                    React
+                                </div>
+                                <div className="font-body-sm text-body-sm text-on-surface-variant">
+                                    Frontend
+                                </div>
+                            </div>
+                        </div>
+                        {/* <!-- Callout 3 --> */}
+                        <div className="flex items-start gap-md p-md bg-surface-container-low rounded-lg transition-colors hover:bg-surface-container">
+                            <span className="text-2xl mt-1">☕</span>
+                            <div>
+                                <div className="font-h3 text-h3 text-on-surface">
+                                    Node
+                                </div>
+                                <div className="font-body-sm text-body-sm text-on-surface-variant">
+                                    Backend
+                                </div>
+                            </div>
+                        </div>
+                        {/* <!-- Callout 4 --> */}
+                        <div className="flex items-start gap-md p-md bg-surface-container-low rounded-lg transition-colors hover:bg-surface-container">
+                            <span className="text-2xl mt-1">🏆</span>
+                            <div>
+                                <div className="font-h3 text-h3 text-on-surface">
+                                    AWS
+                                </div>
+                                <div className="font-body-sm text-body-sm text-on-surface-variant">
+                                    Cloud Service
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                {/* <!-- Technical Interests --> */}
+                <section className="mb-xl">
+                    <h2 className="font-h2 text-h2 text-on-surface mb-md">
+                        Technical Interests
+                    </h2>
+                    <div className="notion-indent space-y-sm">
+                        {technicalInterests.map((interest, index) => {
+                            const isExpanded = expandedInterest === index;
+
+                            return (
+                                <div key={interest.title} className="space-y-2">
+                                    <button
+                                        type="button"
+                                        className="flex items-center gap-md w-full text-left hover:bg-surface-container-lowest p-2 rounded -ml-2 transition-colors"
+                                        onClick={() => toggleInterest(index)}
+                                        aria-expanded={isExpanded}
+                                    >
+                                        <div className="w-6 h-6 flex items-center justify-center text-on-surface-variant transition-colors">
+                                            <span
+                                                className={`material-symbols-outlined text-[20px] transition-transform`}
+                                            >
+                                                {isExpanded
+                                                    ? "expand_more"
+                                                    : "chevron_right"}
+                                            </span>
+                                        </div>
+                                        <span className="text-xl">{interest.icon}</span>
+                                        <span className="font-body-lg text-body-lg text-on-surface font-medium">
+                                            {interest.title}
+                                        </span>
+                                    </button>
+                                    {isExpanded ? (
+                                        <div className="bg-surface-container-low rounded-xl border border-outline-variant p-md ml-8">
+                                            <p className="font-body-md text-body-md text-on-surface-variant mb-sm">
+                                                {interest.description}
+                                            </p>
+                                            <div className="flex flex-wrap gap-2 mt-2">
+                                                {interest.chips.map((chip) => (
+                                                    <span
+                                                        key={chip}
+                                                        className="bg-surface-container-high px-3 py-1 rounded-full font-code-sm text-code-sm text-secondary"
+                                                    >
+                                                        {chip}
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ) : null}
+                                </div>
+                            );
+                        })}
+                    </div>
+                </section>
+            </main>
+        );
+    }
+
     return (
         <main className="mt-24 max-w-container-max mx-auto px-gutter">
             {/* <!-- Hero Section / Professional Bio --> */}
@@ -19,7 +196,18 @@ export default function SkillsPage() {
                             Digital Systems.
                         </h1>
                         <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
-                            I am a Senior software engineer with 11+ years of experience designing, developing, and operating production software, including 8+ years building healthcare-focused SaaS applications. Experienced in end-to-end ownership across React and TypeScript frontends, Node.js backend services, REST APIs, PostgreSQL, AWS, Kubernetes, and CI/CD. Proven ability to translate business requirements into maintainable software, lead technical initiatives, modernize application architecture and user experiences, and deliver secure solutions in regulated environments.
+                            I am a Senior software engineer with 11+ years of
+                            experience designing, developing, and operating
+                            production software, including 8+ years building
+                            healthcare-focused SaaS applications. Experienced in
+                            end-to-end ownership across React and TypeScript
+                            frontends, Node.js backend services, REST APIs,
+                            PostgreSQL, AWS, Kubernetes, and CI/CD. Proven
+                            ability to translate business requirements into
+                            maintainable software, lead technical initiatives,
+                            modernize application architecture and user
+                            experiences, and deliver secure solutions in
+                            regulated environments.
                         </p>
                     </div>
                     <div className="lg:w-1/3 w-full">
@@ -190,23 +378,60 @@ export default function SkillsPage() {
                         <div className="p-stack-lg font-code-sm text-code-sm leading-relaxed overflow-x-auto">
                             <pre className="whitespace-pre">
                                 <code className="text-on-surface">
-                                    
-        <span className="text-tertiary">const</span> <span className="text-primary">developer</span>{" = { \n"}
-            {"  "}name: <span className="text-secondary">'Chance Dev'</span>,{"\n"}
-            {"  "}mantra: <span className="text-secondary">'Build it right, or don't build it at all.'</span>,{"\n"}
-            {"  "}values: [{"\n"}
-                {"    "}<span className="text-secondary">'Architectural Integrity'</span>,{"\n"}
-                {"    "}<span className="text-secondary">'User-Centric Design'</span>,{"\n"}
-                {"    "}<span className="text-secondary">'Radical Transparency'</span>{"\n"}
-            ],{"\n"}
-            {"  "}solveProblem: (<span className="text-primary">complexity</span>) =&gt; {"{\n"}
-                {"    "}<span className="text-on-surface-variant">// Strip away the unnecessary</span>{"\n"}
-                {"    "}<span className="text-tertiary">return</span> simplify(complexity);{"\n"}
-            {"  }"},{"\n"}
-        {"};"},{"\n"}
-
-        <span className="text-outline">/* My goal is to create software that feels
-        inevitable in its simplicity. */</span>
+                                    <span className="text-tertiary">const</span>{" "}
+                                    <span className="text-primary">
+                                        developer
+                                    </span>
+                                    {" = { \n"}
+                                    {"  "}name:{" "}
+                                    <span className="text-secondary">
+                                        'Chance Dev'
+                                    </span>
+                                    ,{"\n"}
+                                    {"  "}mantra:{" "}
+                                    <span className="text-secondary">
+                                        'Build it right, or don't build it at
+                                        all.'
+                                    </span>
+                                    ,{"\n"}
+                                    {"  "}values: [{"\n"}
+                                    {"    "}
+                                    <span className="text-secondary">
+                                        'Architectural Integrity'
+                                    </span>
+                                    ,{"\n"}
+                                    {"    "}
+                                    <span className="text-secondary">
+                                        'User-Centric Design'
+                                    </span>
+                                    ,{"\n"}
+                                    {"    "}
+                                    <span className="text-secondary">
+                                        'Radical Transparency'
+                                    </span>
+                                    {"\n"}
+                                    ],{"\n"}
+                                    {"  "}solveProblem: (
+                                    <span className="text-primary">
+                                        complexity
+                                    </span>
+                                    ) =&gt; {"{\n"}
+                                    {"    "}
+                                    <span className="text-on-surface-variant">
+                                        // Strip away the unnecessary
+                                    </span>
+                                    {"\n"}
+                                    {"    "}
+                                    <span className="text-tertiary">
+                                        return
+                                    </span>{" "}
+                                    simplify(complexity);{"\n"}
+                                    {"  }"},{"\n"}
+                                    {"};"},{"\n"}
+                                    <span className="text-outline">
+                                        /* My goal is to create software that
+                                        feels inevitable in its simplicity. */
+                                    </span>
                                 </code>
                             </pre>
                         </div>

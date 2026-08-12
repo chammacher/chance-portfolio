@@ -1,8 +1,13 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { useTheme } from "next-themes";
 
 export default function ContactPage() {
+    const { theme, resolvedTheme } = useTheme();
+    const currentTheme =
+        theme === "system" ? (resolvedTheme ?? "light") : (theme ?? "light");
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [formMessage, setFormMessage] = useState<{
         type: "success" | "error";
@@ -57,8 +62,152 @@ export default function ContactPage() {
         }
     };
 
+    if (currentTheme === "light") {
+        return (
+            <main className="pt-8 pb-section-gap px-gutter max-w-container-max mx-auto">
+                <div className="flex flex-col">
+                    {/* <!-- Header --> */}
+                    <div className="mb-xl">
+                        <div className="text-[72px] leading-none mb-sm">📩</div>
+                        <h1 className="font-h1 text-h1-mobile md:text-h1 mb-md">
+                            Get in touch
+                        </h1>
+                        <p className="font-body-lg text-body-lg text-on-surface-variant">
+                            Whether you have a specific project in mind or just
+                            want to chat about the latest in web tech, my inbox
+                            is always open. I&apos;m currently looking for new
+                            opportunities and collaborations.
+                        </p>
+                    </div>
+                    {/* <!-- Callouts --> */}
+                    <div className="flex flex-col gap-sm mb-xl ml-indent">
+                        {/* <!-- Callout 1 --> */}
+                        <div className="bg-surface-container-low px-md py-sm rounded flex items-center gap-sm">
+                            <span className="text-lg">📧</span>
+                            <span className="font-body-md text-body-md text-on-surface">
+                                hello@devportfolio.com
+                            </span>
+                        </div>
+                        {/* <!-- Callout 2 --> */}
+                        <div className="bg-surface-container-low px-md py-sm rounded flex items-center gap-sm">
+                            <span className="text-lg">📍</span>
+                            <span className="font-body-md text-body-md text-on-surface">
+                                San Francisco, CA
+                            </span>
+                        </div>
+                    </div>
+                    {/* <!-- Social Profiles --> */}
+                    {/* <div className="mb-xl ml-indent">
+                        <h3 className="font-body-md text-body-md font-bold mb-sm">
+                            Social Profiles
+                        </h3>
+                        <div className="flex gap-sm">
+                            <a
+                                className="bg-surface-container-high hover:bg-surface-variant px-md py-xs rounded-xl flex items-center gap-xs transition-colors duration-150"
+                                href="#"
+                            >
+                                <span className="material-symbols-outlined text-sm">
+                                    code
+                                </span>
+                                <span className="font-body-sm text-body-sm">
+                                    GitHub
+                                </span>
+                            </a>
+                            <a
+                                className="bg-surface-container-high hover:bg-surface-variant px-md py-xs rounded-xl flex items-center gap-xs transition-colors duration-150"
+                                href="#"
+                            >
+                                <span className="material-symbols-outlined text-sm">
+                                    flutter_dash
+                                </span>
+                                <span className="font-body-sm text-body-sm">
+                                    Twitter
+                                </span>
+                            </a>
+                            <a
+                                className="bg-surface-container-high hover:bg-surface-variant px-md py-xs rounded-xl flex items-center gap-xs transition-colors duration-150"
+                                href="#"
+                            >
+                                <span className="material-symbols-outlined text-sm">
+                                    work
+                                </span>
+                                <span className="font-body-sm text-body-sm">
+                                    LinkedIn
+                                </span>
+                            </a>
+                        </div>
+                    </div> */}
+                    <hr className="border-t border-outline-variant my-xl" />
+                    {/* <!-- Contact Form --> */}
+                    <div className="ml-indent">
+                        <h2 className="font-h3 text-h3 mb-md">
+                            Send a Message
+                        </h2>
+                        <form className="flex flex-col gap-lg w-full">
+                            <div className="flex flex-col">
+                                <label
+                                    className="font-body-sm text-body-sm text-on-surface-variant mb-xs"
+                                    htmlFor="name"
+                                >
+                                    Full Name
+                                </label>
+                                <input
+                                    className="notion-input font-body-md text-body-md text-on-surface"
+                                    id="name"
+                                    name="name"
+                                    placeholder="Jane Doe"
+                                    type="text"
+                                />
+                            </div>
+                            <div className="flex flex-col">
+                                <label
+                                    className="font-body-sm text-body-sm text-on-surface-variant mb-xs"
+                                    htmlFor="email"
+                                >
+                                    Email Address
+                                </label>
+                                <input
+                                    className="notion-input font-body-md text-body-md text-on-surface"
+                                    id="email"
+                                    name="email"
+                                    placeholder="jane@example.com"
+                                    type="email"
+                                />
+                            </div>
+                            <div className="flex flex-col">
+                                <label
+                                    className="font-body-sm text-body-sm text-on-surface-variant mb-xs"
+                                    htmlFor="message"
+                                >
+                                    Message
+                                </label>
+                                <textarea
+                                    className="notion-textarea font-body-md text-body-md text-on-surface"
+                                    id="message"
+                                    name="message"
+                                    placeholder="How can we help?"
+                                ></textarea>
+                            </div>
+                            <div className="mt-sm">
+                                <button
+                                    className="bg-[#2383E2] hover:bg-primary text-white font-body-md text-body-md px-lg py-sm rounded transition-colors duration-150"
+                                    type="submit"
+                                >
+                                    Send Message
+                                </button>
+                                <p className="font-body-sm text-body-sm text-on-surface-variant mt-sm">
+                                    Avg. response time: &lt; 24 hours
+                                </p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </main>
+        );
+    }
+
     return (
-        <main className="pt-32 pb-section-gap px-gutter max-w-container-max mx-auto">
+        <main className="pt-8 pb-section-gap px-gutter max-w-container-max mx-auto">
             <div className="flex flex-col lg:flex-row gap-section-gap">
                 {/* <!-- Left Side: Content & Socials --> */}
                 <div className="w-full lg:w-1/2 space-y-stack-lg">
@@ -72,11 +221,11 @@ export default function ContactPage() {
                             together.
                         </h1>
                     </div>
-                    <p className="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    <p className="font-body-lg text-body-lg text-on-surface-variant">
                         Whether you have a specific project in mind or just want
                         to chat about the latest in web tech, my inbox is always
-                        open. I&apos;m currently looking for new opportunities and
-                        collaborations.
+                        open. I&apos;m currently looking for new opportunities
+                        and collaborations.
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-1 gap-stack-md">
                         {/* <!-- Direct Contact Cards --> */}
@@ -94,7 +243,7 @@ export default function ContactPage() {
                                     Email
                                 </p>
                                 <p className="font-body-md text-body-md font-semibold text-on-surface">
-                                   chance.hammacher@gmail.com
+                                    chance.hammacher@gmail.com
                                 </p>
                             </div>
                         </a>

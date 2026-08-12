@@ -6,22 +6,105 @@
 @import "tailwindcss";
 
 :root {
-    --background: #ffffff;
-    --foreground: #171717;
+    /* Light palette variables (provided) */
+    --on-primary-fixed-variant: #004884;
+    --on-secondary-fixed-variant: #494740;
+    --outline-variant: #c0c7d4;
+    --on-tertiary-container: #fdfdfa;
+    --on-primary-fixed: #001c39;
+    --error: #ba1a1a;
+    --surface-tint: #005fad;
+    --on-secondary-container: #67645d;
+    --on-primary: #ffffff;
+    --on-error: #ffffff;
+    --tertiary-fixed: #e2e3e1;
+    --on-tertiary-fixed-variant: #454746;
+    --surface-container-high: #eae8e4;
+    --tertiary: #5b5c5b;
+    --surface-bright: #fcf9f5;
+    --surface-variant: #e5e2de;
+    --error-container: #ffdad6;
+    --surface-container-lowest: #ffffff;
+    --tertiary-container: #737573;
+    --primary-container: #0076d3;
+    --primary-fixed: #d4e3ff;
+    --outline: #717784;
+    --inverse-primary: #a4c9ff;
+    --on-surface-variant: #414752;
+    --on-secondary: #ffffff;
+    --surface: #fcf9f5;
+    --surface-container: #f0edea;
+    --on-tertiary-fixed: #1a1c1b;
+    --secondary-fixed: #e7e2d9;
+    --inverse-surface: #30302e;
+    --on-background: #1b1c1a;
+    --inverse-on-surface: #f3f0ec;
+    --primary-fixed-dim: #a4c9ff;
+    --surface-dim: #dcdad6;
+    --secondary-container: #e7e2d9;
+    --on-error-container: #93000a;
+    --secondary-fixed-dim: #cbc6bd;
+    --tertiary-fixed-dim: #c6c7c5;
+    --on-tertiary: #ffffff;
+    --on-surface: #1b1c1a;
+    --primary: #005da9;
+    --surface-container-low: #f6f3ef;
+    --on-primary-container: #fdfcff;
+    --secondary: #615e57;
+    --background: #fcf9f5;
+    --on-secondary-fixed: #1d1c16;
+    --surface-container-highest: #e5e2de;
 }
 
-@theme inline {
-    --color-background: var(--background);
-    --color-foreground: var(--foreground);
-    --font-sans: Arial, Helvetica, sans-serif;
-    --font-mono: "JetBrains Mono", monospace;
-}
-
-@media (prefers-color-scheme: dark) {
-    :root {
-        --background: #0a0a0a;
-        --foreground: #ededed;
-    }
+/* Dark palette variables (fallback) - applied when .dark is present */
+.dark {
+    --error: #ffb4ab;
+    --tertiary-fixed: #6ffbbe;
+    --primary-container: #4d8eff;
+    --on-surface-variant: #c2c6d6;
+    --surface: #0b1326;
+    --on-primary-fixed-variant: #004395;
+    --primary-fixed-dim: #adc6ff;
+    --background: #0b1326;
+    --on-tertiary-fixed-variant: #005236;
+    --inverse-surface: #dae2fd;
+    --secondary-fixed: #d4e4fa;
+    --on-secondary-fixed-variant: #39485a;
+    --surface-container-lowest: #060e20;
+    --secondary: #b9c8de;
+    --surface-container-highest: #2d3449;
+    --secondary-container: #39485a;
+    --on-error-container: #ffdad6;
+    --surface-container-low: #131b2e;
+    --on-background: #dae2fd;
+    --surface-bright: #31394d;
+    --on-surface: #dae2fd;
+    --tertiary-container: #00a572;
+    --on-primary-fixed: #001a42;
+    --surface-container-high: #222a3d;
+    --inverse-primary: #005ac2;
+    --outline-variant: #424754;
+    --on-secondary-fixed: #0d1c2d;
+    --primary-fixed: #d8e2ff;
+    --on-secondary-container: #a7b6cc;
+    --surface-tint: #adc6ff;
+    --outline: #8c909f;
+    --primary: #adc6ff;
+    --secondary-fixed-dim: #b9c8de;
+    --tertiary: #4edea3;
+    --surface-variant: #2d3449;
+    --error-container: #93000a;
+    --on-tertiary: #003824;
+    --on-tertiary-fixed: #002113;
+    --on-error: #690005;
+    --tertiary-fixed-dim: #4edea3;
+    --on-primary-container: #00285d;
+    --surface-dim: #0b1326;
+    --on-secondary: #233143;
+    --surface-container: #171f33;
+    --inverse-on-surface: #283044;
+    --on-tertiary-container: #00311f;
+    --on-primary: #002e6a;
 }
 
 .timeline-line {
@@ -66,10 +149,12 @@
 }
 
 body {
-    background-color: #0b1326;
-    color: #dae2fd;
+    background-color: var(--background);
+    color: var(--on-background);
     -webkit-font-smoothing: antialiased;
     font-family: Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .bento-grid {
@@ -191,6 +276,141 @@ body {
     box-shadow: 0 0 0 2px rgba(173, 198, 255, 0.2);
 }
 
+
+/* Light mode classes */
+.notion-input {
+    border: none;
+    border-bottom: 1px solid #EDEDEB;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 8px 0;
+    transition: border-color 0.15s ease;
+}
+.notion-input:focus {
+    outline: none;
+    border-bottom-color: #2383E2;
+    box-shadow: none;
+}
+.notion-textarea {
+    border: none;
+    border-bottom: 1px solid #EDEDEB;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 8px 0;
+    transition: border-color 0.15s ease;
+    resize: vertical;
+    min-height: 100px;
+}
+.notion-textarea:focus {
+    outline: none;
+    border-bottom-color: #2383E2;
+    box-shadow: none;
+}
+.notion-callout {
+    background-color: #f7f6f3;
+    border-radius: 3px;
+    padding: 16px 16px 16px 12px;
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.notion-callout-icon {
+    margin-right: 12px;
+    font-size: 1.25em;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.notion-progress-bg {
+    display: block;
+    min-height: 6px;
+    height: 6px;
+    background-color: #ededeb;
+    border-radius: 999px;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 4px;
+}
+
+.notion-progress-fill {
+    display: block;
+    height: 100%;
+    min-height: 6px;
+    background-color: #737573;
+    border-radius: 999px;
+    transition: width 0.5s ease-in-out;
+}
+
+.notion-divider {
+    border-bottom: 1px solid #ededeb;
+    width: 100%;
+    margin: 24px 0;
+}
+
+.skill-pill {
+    background-color: #f1f1ef;
+    color: #37352f;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* Subtle transition for interactive elements */
+.notion-block {
+    transition: background-color 150ms ease;
+}
+
+/* Ensure emojis render nicely */
+.emoji-icon {
+    font-family: "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+.toggle-content {
+    display: none;
+}
+.toggle-content.expanded {
+    display: block;
+}
+.toggle-icon {
+    transition: transform 0.2s ease;
+}
+.toggle-icon.expanded {
+    transform: rotate(90deg);
+}
+.notion-indent {
+    padding-left: 24px;
+}
+
+.notion-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 24px 96px;
+}
+
+.notion-icon-large {
+    font-size: 78px;
+    line-height: 1.1;
+    margin-bottom: 24px;
+    display: block;
+}
+
+.notion-callout-text {
+    line-height: 1.5;
+    color: #1b1c1a;
+}
+
+.tech-pill {
+    padding: 4px 12px;
+    background-color: #F7F6F3;
+    border-radius: 9999px;
+    font-size: 14px;
+    color: #414752;
+    white-space: nowrap;
+}
 @keyframes scroll {
     0% {
         transform: translateX(0);

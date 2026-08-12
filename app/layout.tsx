@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import Providers from "./providers";
 
 export const metadata: Metadata = {
     title: "Chance Hammacher — Senior Software Engineer",
@@ -16,12 +17,13 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="h-full antialiased">
-            <body className="min-h-full flex flex-col">
-                <Header />
+            <body className="min-h-full flex flex-col" suppressHydrationWarning>
+                <Providers>
+                    <Header />
 
-                {children}
-                <Footer />
-
+                    {children}
+                    <Footer />
+                </Providers>
             </body>
         </html>
     );

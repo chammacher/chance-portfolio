@@ -1,191 +1,21 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-
-type ProjectBullet = {
-    title: string;
-    description: string;
-};
-
-type ProjectItem = {
-    title: string;
-    summary: string;
-    bullets: ProjectBullet[];
-    slug: string;
-};
-
-const projectContent: ProjectItem[] = [
-    {
-        title: 'UI Modernization & Design Systems',
-        slug: 'ui-modernization-design-systems',
-        summary:
-            'A full-stack design modernization effort that simplified fragmented interfaces and improved consistency across product surfaces.',
-        bullets: [
-            {
-                title: '01. Problem',
-                description:
-                    'Legacy interfaces were inconsistent across a growing set of micro-frontends, creating maintenance drag and slowing release velocity.',
-            },
-            {
-                title: '02. Schema',
-                description:
-                    'Dynamic design tokens and shared layout metadata were normalized so teams could evolve the system without duplicated effort.',
-            },
-            {
-                title: '03. Logic',
-                description:
-                    'Atomic design principles were applied alongside visual regression checks so changes stayed stable through CI/CD.',
-            },
-            {
-                title: '04. UI Flexibility',
-                description:
-                    'Headless UI components and Tailwind-based theming made the experience flexible while keeping the implementation lean.',
-            },
-        ],
-    },
-    {
-        title: 'Configurable Onboarding Platform',
-        slug: 'configurable-onboarding-platform',
-        summary:
-            'A configurable onboarding platform transformed manual delivery into a scalable workflow that clients could adapt without engineering support.',
-        bullets: [
-            {
-                title: '01. Problem',
-                description:
-                    'Client onboarding took weeks because each setup relied on hardcoded steps and manual document coordination.',
-            },
-            {
-                title: '02. Schema',
-                description:
-                    'Workflow logic, edge conditions, and field requirements were modeled as reusable content so onboarding could be changed safely.',
-            },
-            {
-                title: '03. Logic',
-                description:
-                    'A directed acyclic graph engine handled conditional branching in real time and reduced handoffs between teams.',
-            },
-            {
-                title: '04. UI Flexibility',
-                description:
-                    'A JSON-driven builder gave non-technical admins control over flows while preserving a polished experience for end users.',
-            },
-        ],
-    },
-    {
-        title: 'AI-Powered Analytics Experience',
-        slug: 'ai-powered-analytics-experience',
-        summary:
-            'An analytics experience brought together data exploration, guided insights, and rapid iteration for teams making operational decisions.',
-        bullets: [
-            {
-                title: '01. Problem',
-                description:
-                    'Operators had to piece together dashboards manually and lacked a shared path from raw data to action.',
-            },
-            {
-                title: '02. Schema',
-                description:
-                    'A layered content model connected metrics, explanations, and recommended actions into a single context-aware view.',
-            },
-            {
-                title: '03. Logic',
-                description:
-                    'Realtime summarization and contextual prompts helped teams move from question to decision without context switching.',
-            },
-            {
-                title: '04. UI Flexibility',
-                description:
-                    'The interface adapted to different roles so executives, analysts, and operators each saw the right level of detail.',
-            },
-        ],
-    },
-    {
-        title: "Led Contractor Development",
-        slug: "led-contractor-development",
-        summary: "Led a small team of contractors to deliver high growth and high impact items.",
-        bullets: [
-            {
-                title: "01. Problem",
-                description:
-                    "Projects were in need of additional engineering support to meet deadlines and deliver high quality work.",
-            },
-            {
-                title: "02. Schema",
-                description:
-                    "A clear project roadmap and task breakdown was created to ensure contractors had a clear understanding of their responsibilities.",
-            },
-            {
-                title: "03. Logic",
-                description:
-                    "Regular check-ins and code reviews were conducted to ensure quality and consistency across the team.",
-            },
-            {
-                title: "04. UI Flexibility",
-                description:
-                    "The team was able to adapt to changing requirements and priorities, delivering high quality work on time.",
-            }
-        ],
-    },
-    {
-        title: "Designed a Reusable React Design System",
-        slug: "designed-reusable-react-design-system",
-        summary: "A reusable React design system that improved consistency and efficiency across multiple projects.",
-        bullets: [
-            {
-                title: "01. Problem",
-                description: "Inconsistent UI patterns and duplicated frontend code made features slower to build and harder to maintain.",
-            },
-            {
-                title: "02. Schema",
-                description: "A shared component architecture with standardized variants, states, sizing, accessibility rules, and design tokens.",
-            },
-            {
-                title: "03. Logic",
-                description: "Reusable React components centralized common behavior, validation, responsiveness, and interaction patterns.",
-            },
-            {
-                title: "04. UI Flexibility",
-                description: "Configurable props and composable layouts allowed components to support different workflows without sacrificing consistency.",
-            }
-        ],
-    },
-    {
-        title: "Developed Agentic AI Assistants",
-        slug: "developed-agentic-ai-assistants",
-        summary: "An AI assistant that can autonomously perform tasks and make decisions to lessen daily admin burden.",
-        bullets: [
-            {
-                title: "01. Problem",
-                description: "Repetitive administrative tasks consumed time and required frequent manual follow-up.",
-            },
-            {
-                title: "02. Schema",
-                description: "A modular agent architecture connecting user requests, business data, tools, permissions, and action results.",
-            },
-            {
-                title: "03. Logic",
-                description: "The assistant interprets intent, selects the appropriate tools, evaluates context, and completes multi-step tasks with safeguards.",
-            },
-            {
-                title: "04. UI Flexibility",
-                description: "A conversational interface supports guided actions, approvals, status updates, and reusable workflows across different administrative processes.",
-            }
-        ],
-    }
-];
-
-const getProjectFromHash = (hash: string) => {
-    const slug = hash.replace(/^#/, "");
-
-    return projectContent.find((project) => project.slug === slug) ?? projectContent[0];
-};
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { getProjectFromHash, projectContent } from "@/lib/data";
 
 export default function HighlightsPage() {
+    const { theme, resolvedTheme } = useTheme();
+    const currentTheme =
+        theme === "system" ? (resolvedTheme ?? "light") : (theme ?? "light");
+
     const [activeProject, setActiveProject] = useState(projectContent[0].title);
+    const [expandedBulletIndex, setExpandedBulletIndex] = useState<number | null>(null);
 
     useEffect(() => {
         const syncProjectFromHash = () => {
             setActiveProject(getProjectFromHash(window.location.hash).title);
+            setExpandedBulletIndex(null);
         };
 
         syncProjectFromHash();
@@ -204,6 +34,117 @@ export default function HighlightsPage() {
         window.history.replaceState(null, "", `#${slug}`);
         setActiveProject(getProjectFromHash(`#${slug}`).title);
     };
+
+    if (currentTheme === "light") {
+        return (
+            <main className="flex-grow w-full max-w-container-max mx-auto px-md md:px-xl py-xl md:py-20">
+                {/* <!-- Engineering Highlights Section --> */}
+                <section className="mt-lg">
+                    <h2 className="font-h3 text-h3 text-on-surface mb-md flex items-center gap-sm">
+                        <span className="material-symbols-outlined text-outline">
+                            architecture
+                        </span>
+                        Engineering Highlights
+                    </h2>
+                    <p className="font-body-md text-body-md text-on-surface-variant mb-md ml-indent">
+                        A selection of pivotal technical contributions and
+                        architectural decisions across recent projects.
+                    </p>
+                    {/* <!-- Highlights Grid (Notion Callout Style) --> */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-md ml-indent mb-lg">
+                        {/* <!-- Callout Item 1 --> */}
+                         {projectContent.map((project) => {
+                        const isActive =
+                            project.title === selectedProject.title;
+
+                        return (
+                            <div
+                                key={project.title}
+                                onClick={() => handleProjectClick(project.slug)}
+                                className={`notion-block rounded-lg p-md flex items-start gap-md hover:bg-surface-container-high cursor-pointer ${
+                                    isActive
+                                        ? "border-primary bg-surface-container-high shadow-sm"
+                                        : "border-outline-variant bg-surface-container-low hover:border-primary"
+                                }`}>
+                                <span className="text-[20px] leading-none emoji-icon mt-xs">
+                                    ✅
+                                </span>
+                                <div className="font-body-md text-body-md text-on-surface">
+                                    {project.title}
+                                </div>
+                            </div>
+                        )
+                    })}                   
+                    </div>
+                    <article className="flex flex-col gap-md bg-surface-container-lowest border border-outline-variant rounded-lg p-lg shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+                        <div className="flex items-start justify-between">
+                            <div className="flex items-center gap-sm">
+                                <span className="text-[24px]">🎨</span>
+                                <h2 className="font-h2 text-h2 text-on-surface">
+                                    {selectedProject.title}
+                                </h2>
+                            </div>
+                            <span className="bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps px-2 py-1 rounded-full">
+                                Completed
+                            </span>
+                        </div>
+                        <div className="font-body-md text-body-md text-on-surface-variant pl-indent">
+                            {selectedProject.summary}
+                        </div>
+                        {/* <!-- Toggles for Case Study 1 --> */}
+                        <div className="pl-indent flex flex-col gap-sm mt-sm">
+                            {/* <!-- Toggle Item --> */}
+                            {selectedProject.bullets.map((bullet, index) => {
+                                const isExpanded = expandedBulletIndex === index;
+
+                                return (
+                                    <div className="toggle-group" key={`${selectedProject.title}-${bullet.title}`}>
+                                        <button
+                                            type="button"
+                                            className="cursor-pointer flex items-center gap-sm w-full text-left py-1 hover:bg-surface-container-low rounded transition-colors"
+                                            onClick={() =>
+                                                setExpandedBulletIndex((current) =>
+                                                    current === index ? null : index,
+                                                )
+                                            }
+                                            aria-expanded={isExpanded}
+                                        >
+                                            <span
+                                                className={`material-symbols-outlined text-[16px] toggle-icon text-on-surface-variant ${
+                                                    isExpanded ? "transform rotate-90" : ""
+                                                }`}
+                                            >
+                                                chevron_right
+                                            </span>
+                                            <span className="text-[16px]">{bullet.icon}</span>
+                                            <span className="font-body-md text-body-md font-medium text-on-surface">
+                                                {bullet.title.replace(/^(\d+\.)\s*/, "")}
+                                            </span>
+                                        </button>
+                                        <div
+                                            className={`toggle-content pl-indent pt-sm pb-md font-body-sm text-body-sm text-on-surface-variant border-l border-outline-variant ml-[8px] ${
+                                                isExpanded ? "" : "hidden"
+                                            }`}
+                                        >
+                                            {bullet.description}
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </article>
+                </section>
+                {/* <!-- Divider --> */}
+                <hr className="border-t border-outline-variant opacity-50 my-lg" />
+                {/* <!-- End of page marker (Subtle) --> */}
+                <div className="flex justify-center mt-xl opacity-30 text-outline">
+                    <span className="material-symbols-outlined text-[16px]">
+                        page_info
+                    </span>
+                </div>
+            </main>
+        );
+    }
 
     return (
         <main className="mt-24 mb-section-gap max-w-container-max mx-auto px-gutter">
@@ -224,7 +165,8 @@ export default function HighlightsPage() {
                 </h2>
                 <div className="grid grid-cols-1 gap-stack-md md:grid-cols-2 lg:grid-cols-3">
                     {projectContent.map((project) => {
-                        const isActive = project.title === selectedProject.title;
+                        const isActive =
+                            project.title === selectedProject.title;
 
                         return (
                             <button
@@ -233,8 +175,8 @@ export default function HighlightsPage() {
                                 onClick={() => handleProjectClick(project.slug)}
                                 className={`rounded-xl border p-gutter text-left transition-all cursor-pointer ${
                                     isActive
-                                        ? 'border-primary bg-surface-container shadow-sm'
-                                        : 'border-outline-variant bg-surface-container-low hover:border-primary'
+                                        ? "border-primary bg-surface-container shadow-sm"
+                                        : "border-outline-variant bg-surface-container-low hover:border-primary"
                                 }`}
                             >
                                 <div className="flex items-start justify-between gap-stack-sm">
@@ -249,11 +191,13 @@ export default function HighlightsPage() {
                                     <span
                                         className={`material-symbols-outlined ${
                                             isActive
-                                                ? 'text-primary'
-                                                : 'text-on-surface-variant'
+                                                ? "text-primary"
+                                                : "text-on-surface-variant"
                                         }`}
                                     >
-                                        {isActive ? 'expand_less' : 'open_in_new'}
+                                        {isActive
+                                            ? "expand_less"
+                                            : "open_in_new"}
                                     </span>
                                 </div>
                             </button>
@@ -293,11 +237,14 @@ export default function HighlightsPage() {
                             >
                                 <div className="flex gap-stack-sm">
                                     <span className="font-label-caps text-primary">
-                                        {String(index + 1).padStart(2, '0')}.
+                                        {String(index + 1).padStart(2, "0")}.
                                     </span>
                                     <div>
                                         <h4 className="font-label-caps text-tertiary">
-                                            {bullet.title.replace(/^\d+\.\s*/, '')}
+                                            {bullet.title.replace(
+                                                /^\d+\.\s*/,
+                                                "",
+                                            )}
                                         </h4>
                                         <p className="mt-base text-body-md text-on-surface-variant">
                                             {bullet.description}

@@ -1,60 +1,14 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import { useEffect } from "react";
-
-type experienceSection = {
-    duration: string;
-    title: string;
-    subtitle: string;
-    description: string;
-    skills: string[];
-    topThree: string[];
-};
-
-const experience: experienceSection[] = [
-    {
-        duration: "Oct 2018 — Present",
-        title: "Senior Full-Stack Developer",
-        subtitle: "Ops.Work (formerly Flow Healthcare)",
-        description:
-            "Cloud-native SaaS platform used daily by healthcare organizations for onboarding, credentialing, learning, task management, forms, document collection, approvals, reminders, and workflow automation.",
-        skills: [
-            "React",
-            "Node.js",
-            "TypeScript",
-            "Kubernetes",
-            "AWS",
-            "Express.js",
-            "SOC II",
-            "HIPAA",
-        ],
-        topThree: [
-            "Own full-stack development and production operations across React/TypeScript frontends, Node.js/Express backend services, REST APIs, PostgreSQL databases, AWS infrastructure, Kubernetes workloads, CI/CD, security, production support and a CMS public website.",
-            "Implement and maintain secure application functionality and third-party integrations using IAM, OAuth, REST APIs, and AWS WAF while supporting HIPAA and SOC 2 compliance requirements.",
-            "Led and independently executed a platform-wide UI/UX modernization, redesigning and rebuilding application pages with reusable React components and a cohesive design system, improving usability and mobile responsiveness while reducing duplicated frontend code.",
-        ],
-    },
-    {
-        duration: "January 2015 – May 2018",
-        title: "Student Software Engineer",
-        subtitle:
-            "Space Science & Engineering Center (SSEC), University of Wisconsin–Madison",
-        description:
-            "Developed and maintained Python applications, Linux-based workflows, and visualization tools supporting satellite imagery processing, atmospheric research, and scientific data analysis.",
-        skills: [
-            "Python",
-            "Satelite Data Processing",
-            "Command Line Automation",
-        ],
-        topThree: [
-            "Developed Python applications and Linux-based workflows supporting satellite imagery processing, validation, visualization, and scientific data analysis.",
-            "Automated quality-assurance and recurring data-processing workflows, reducing manual effort and improving repeatability.",
-            "Trained new team members on applications, development practices, and technical processes.",
-        ],
-    },
-];
+import { experience } from "@/lib/data";
 
 export default function ExperiencePage() {
+    const { theme, resolvedTheme } = useTheme();
+    const currentTheme =
+        theme === "system" ? (resolvedTheme ?? "light") : (theme ?? "light");
+
     useEffect(() => {
         // Scroll interaction for timeline dots
         window.addEventListener("scroll", () => {
@@ -75,8 +29,80 @@ export default function ExperiencePage() {
             });
         });
     });
+
+    if (currentTheme === "light") {
+        return (
+            <main className="max-w-container-max mx-auto px-lg py-xl mt-8">
+                {/* <!-- Breadcrumbs --> */}
+                {/* <!-- Page Title --> */}
+                <h1 className="font-h1 text-h1 md:font-h1-mobile md:text-h1-mobile mb-10 flex items-center gap-4">
+                    <span>💼</span> Professional Experience
+                </h1>
+                {/* <!-- Experience List --> */}
+                <section className="space-y-12">
+                    {/* <!-- Entry 1 --> */}
+                    {experience.map((e, index) => {
+                        return (
+                            <article className="ml-indent border-l border-outline-variant pl-6 relative"
+                                key={index + "-experience"}
+                            >
+                                <div className="absolute -left-[5px] top-2 w-2 h-2 rounded-full bg-outline-variant"></div>
+                                <div className="flex flex-col md:flex-row md:justify-between md:items-baseline mb-2">
+                                    <h2 className="font-h3 text-h3 text-on-background">
+                                        {e.title}{" "}
+                                        <span className="font-normal text-on-surface-variant">
+                                            @ {e.subtitle}
+                                        </span>
+                                    </h2>
+                                    <span className="font-body-sm text-body-sm text-on-surface-variant mt-1 md:mt-0">
+                                        {e.duration}
+                                    </span>
+                                </div>
+                                <ul className="list-disc list-inside font-body-md text-body-md text-on-background space-y-2 mb-4 ml-2">
+                                     {e.topThree.map((s) => {
+                                            return (
+                                                <li key={s}>
+                                                    {s}
+                                                </li>
+                                            );
+                                        })}
+                                </ul>
+                                <div className="flex flex-wrap gap-2">
+                                     {e.skills.map((item, idx) => {
+                                                return (
+                                                    <span
+                                                        key={index + "-" + idx}
+                                                        className="skill-pill"
+                                                    >
+                                                        {item}
+                                                    </span>
+                                                );
+                                            })}
+                                </div>
+                            </article>
+                        );
+                    })}
+                </section>
+                <div className="notion-divider"></div>
+                {/* <!-- Notion-style Callouts --> */}
+                <section className="space-y-6">
+                    <div className="notion-callout">
+                        <span className="text-xl">🎓</span>
+                        <div>
+                            <h3 className="font-h3 text-h3 mb-1">
+                                Education &amp; Foundation
+                            </h3>
+                            <p className="font-body-md text-body-md text-on-surface-variant">
+                                B.S. in Computer Science,  University of Wisconsin - Madison | 2014 — 2018.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        );
+    }
     return (
-        <main className="mt-16 py-section-gap max-w-container-max mx-auto px-gutter">
+        <main className="mt-8 py-section-gap max-w-container-max mx-auto px-gutter">
             <header className="mb-section-gap max-w-3xl">
                 <h1 className="font-display text-display mb-stack-md">
                     Professional Journey
@@ -97,7 +123,8 @@ export default function ExperiencePage() {
                     {/* <!-- Role 1: Senior Systems Architect --> */}
                     {experience.map((e, index) => {
                         return (
-                            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-start"
+                            <div
+                                className="relative grid grid-cols-1 md:grid-cols-2 gap-stack-lg items-start"
                                 key={index + "-experience"}
                             >
                                 {/* <!-- Dot --> */}
@@ -144,7 +171,14 @@ export default function ExperiencePage() {
                                     </div>
                                 </div>
                                 {/* <!-- Visual Right --> */}
-                                <div className={"" + (index%2 === 0 ? "order-1 md:order-2 md:pl-16" : "order-2 md:order-1 md:pr-16")}>
+                                <div
+                                    className={
+                                        "" +
+                                        (index % 2 === 0
+                                            ? "order-1 md:order-2 md:pl-16"
+                                            : "order-2 md:order-1 md:pr-16")
+                                    }
+                                >
                                     <div className="experience-card border border-outline-variant rounded-xl p-stack-md bg-surface-container-low transition-all duration-300">
                                         <ul className="space-y-stack-sm font-body-md text-body-md text-on-surface-variant">
                                             {e.topThree.map((item, idx) => {
@@ -160,7 +194,9 @@ export default function ExperiencePage() {
                                                                     "18px",
                                                             }}
                                                         >
-                                                            {index%2 === 0 ? "check_circle" : "bolt"}
+                                                            {index % 2 === 0
+                                                                ? "check_circle"
+                                                                : "bolt"}
                                                         </span>
                                                         {item}
                                                     </li>
@@ -183,7 +219,7 @@ export default function ExperiencePage() {
                     <div className="md:col-span-2 p-stack-lg border border-outline-variant rounded-xl bg-surface-container relative overflow-hidden">
                         <div className="relative z-10">
                             <span className="font-label-caps text-primary uppercase block mb-base">
-                                Bachlor of Arts
+                                Bachlor of Science
                             </span>
                             <h4 className="font-headline-md text-headline-md mb-stack-sm">
                                 Computer Science

@@ -1,144 +1,14 @@
 "use client";
 
+import { useTheme } from "next-themes";
 import { useEffect, useRef } from "react";
-
-type SkillItem = {
-    name: string;
-    proficiency: number;
-    description: string;
-};
-
-type SkillSection = {
-    title: string;
-    icon: string;
-    skills: SkillItem[];
-};
-
-const skillsGridContent: SkillSection[] = [
-    {
-        title: "Frontend",
-        icon: "terminal",
-        skills: [
-            {
-                name: "React / Next.js",
-                proficiency: 95,
-                description:
-                    "Building complex SPAs with SSR, ISR, and optimized Hydration patterns.",
-            },
-            {
-                name: "TypeScript",
-                proficiency: 90,
-                description:
-                    "Advanced type engineering, generics, and strict compile-time safety.",
-            },
-            {
-                name: "Tailwind CSS",
-                proficiency: 100,
-                description:
-                    "Developing modular, responsive Design Systems and complex layouts.",
-            },
-        ],
-    },
-    {
-        title: "Backend",
-        icon: "database",
-        skills: [
-            {
-                name: "Node.js",
-                proficiency: 90,
-                description:
-                    "Architecting high-concurrency microservices and REST APIs.",
-            },
-            {
-                name: "PostgreSQL",
-                proficiency: 88,
-                description:
-                    "Relational modeling, query optimization, and transaction management.",
-            },
-            {
-                name: "GraphQL",
-                proficiency: 80,
-                description:
-                    "Designing Apollo federated schemas and efficient resolver logic.",
-            },
-        ],
-    },
-    {
-        title: "DevOps",
-        icon: "cloud",
-        skills: [
-            {
-                name: "AWS / GCP",
-                proficiency: 75,
-                description:
-                    "Managing EC2, S3, and serverless infrastructure deployments.",
-            },
-            {
-                name: "Docker / K8s",
-                proficiency: 70,
-                description:
-                    "Containerization strategies and basic Kubernetes orchestration.",
-            },
-            {
-                name: "CI/CD Pipeline",
-                proficiency: 90,
-                description:
-                    "Automating tests and deployments via GitHub Actions and Vercel.",
-            },
-        ],
-    },
-    {
-        title: "Security",
-        icon: "architecture",
-        skills: [
-            {
-                name: "HIPAA",
-                proficiency: 90,
-                description:
-                    "Built healthcare applications following HIPAA security and privacy best practices.",
-            },
-            {
-                name: "SOC 2",
-                proficiency: 95,
-                description:
-                    "Implemented SOC 2-aligned security controls and secure development practices..",
-            },
-            {
-                name: "OAUTH",
-                proficiency: 90,
-                description:
-                    "Implemented OAuth 2.0 and OpenID Connect for secure authentication and authorization.",
-            },
-        ],
-    },
-    // {
-    //     title: "Tools",
-    //     icon: "architecture",
-    //     skills: [
-    //         {
-    //             name: "Figma",
-    //             proficiency: 85,
-    //             description:
-    //                 "Prototyping and design-to-code handoff execution.",
-    //         },
-    //         {
-    //             name: "Git / CLI",
-    //             proficiency: 95,
-    //             description:
-    //                 "Advanced branching strategies, rebase workflows, and bash scripting.",
-    //         },
-    //         {
-    //             name: "Testing",
-    //             proficiency: 82,
-    //             description:
-    //                 "Unit, integration, and E2E testing with Jest.",
-    //         },
-    //     ],
-    // },
-];
+import { skillsGridContent } from "@/lib/data";
 
 export default function SkillsPage() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
+    const { theme, resolvedTheme } = useTheme();
+    const currentTheme =
+        theme === "system" ? (resolvedTheme ?? "light") : (theme ?? "light");
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -230,6 +100,105 @@ export default function SkillsPage() {
         };
     }, []);
 
+    if (currentTheme === "light") {
+        return (
+            <main className="relative pt-8 pb-section-gap overflow-hidden">
+                <div className="max-w-container-max mx-auto px-gutter">
+                    {/* <!-- Header --> */}
+                    <header className="mb-xl">
+                        <div className="text-6xl mb-sm">🛠️</div>
+                        <h1 className="font-h1 text-h1 text-on-surface mb-sm">
+                            Skills &amp; Proficiency
+                        </h1>
+                        <p className="font-body-lg text-body-lg text-on-surface-variant">
+                            A comprehensive overview of technical capabilities,
+                            tools, and methodologies. Structured for clarity.
+                        </p>
+                    </header>
+                    <div className="notion-divider"></div>
+                    {/* <!-- Integrated Tech Stack Callouts --> */}
+                    <section className="mb-xl">
+                        <h2 className="font-h3 text-h3 text-on-surface mb-md">
+                            Integrated Tech Stack
+                        </h2>
+                        <div className="notion-callout mb-md">
+                            <div className="notion-callout-icon">🌐</div>
+                            <div>
+                                <strong className="font-body-md text-body-md text-on-surface block mb-xs">
+                                    Modern Web Infrastructure
+                                </strong>
+                                <p className="font-body-sm text-body-sm text-on-surface-variant">
+                                    Specializing in Jamstack architectures,
+                                    utilizing Next.js for SSR/SSG, decoupled CMS
+                                    solutions (Contentful, Sanity), and edge
+                                    computing for global low-latency content
+                                    delivery. Emphasis on scalable,
+                                    micro-frontend designs.
+                                </p>
+                            </div>
+                        </div>
+                        <div className="notion-callout">
+                            <div className="notion-callout-icon">🔒</div>
+                            <div>
+                                <strong className="font-body-md text-body-md text-on-surface block mb-xs">
+                                    System Security
+                                </strong>
+                                <p className="font-body-sm text-body-sm text-on-surface-variant">
+                                    Implementing defense-in-depth strategies.
+                                    Proficient in OAuth 2.0 / OIDC integrations,
+                                    JWT-based stateless authentication,
+                                    automated vulnerability scanning in CI/CD
+                                    pipelines, and adherence to OWASP Top 10
+                                    guidelines.
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+                    <div className="notion-divider"></div>
+                    {/* <!-- Skills Grid --> */}
+                    <section>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-xl">
+                            {skillsGridContent.map((section) => (
+                                <div
+                                    key={section.title}
+                                    className="bg-surface-container-lowest p-lg rounded-lg border border-outline-variant/30"
+                                >
+                                    <h3 className="font-h3 text-h3 text-on-surface mb-md flex items-center gap-sm">
+                                        <span
+                                            className="material-symbols-outlined text-primary"
+                                            data-icon={section.icon}
+                                        >
+                                            {section.icon}
+                                        </span>
+                                        {section.title}
+                                    </h3>
+                                    <div className="flex flex-col gap-md pl-indent border-l border-outline-variant/30 ml-sm pb-sm">
+                                        {section.skills.map((skill) => (
+                                            <div key={skill.name}>
+                                                <div className="flex justify-between font-body-sm text-body-sm text-on-surface mb-xs">
+                                                    <span>{skill.name}</span>
+                                                    <span className="text-on-surface-variant">
+                                                        {skill.proficiency}%
+                                                    </span>
+                                                </div>
+                                                <div className="notion-progress-bg">
+                                                    <div
+                                                        className="notion-progress-fill"
+                                                        style={{ width: `${skill.proficiency}%` }}
+                                                    ></div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+            </main>
+        );
+    }
+
     return (
         <main className="relative pt-32 pb-section-gap overflow-hidden">
             <canvas
@@ -264,7 +233,9 @@ export default function SkillsPage() {
                             <div className="flex items-center gap-stack-sm mb-stack-sm">
                                 <span
                                     className="material-symbols-outlined text-primary"
-                                    style={{ fontVariationSettings: "'FILL' 1" }}
+                                    style={{
+                                        fontVariationSettings: "'FILL' 1",
+                                    }}
                                 >
                                     {section.icon}
                                 </span>
@@ -292,7 +263,9 @@ export default function SkillsPage() {
                                         <div className="h-1 w-full bg-outline-variant rounded-full overflow-hidden">
                                             <div
                                                 className="h-full bg-primary transition-all duration-1000"
-                                                style={{ width: `${skill.proficiency}%` }}
+                                                style={{
+                                                    width: `${skill.proficiency}%`,
+                                                }}
                                             ></div>
                                         </div>
                                     </div>
@@ -319,8 +292,14 @@ export default function SkillsPage() {
                                 <h3 className="font-headline-md text-headline-md mb-stack-sm">
                                     Modern Web Infrastructure
                                 </h3>
-                                <p className="font-body-md text-body-md text-on-surface-variant max-w-md">
-                                    Built on a scalable cloud architecture using React, TypeScript, Node.js, Express, PostgreSQL, and AWS. Containerized with Docker, orchestrated with Kubernetes, and deployed through an automated CI/CD pipeline using GitHub, CircleCI, GitLab CI, and Helm to enable reliable, efficient releases.
+                                <p className="font-body-md text-body-md text-on-surface-variant">
+                                    Built on a scalable cloud architecture using
+                                    React, TypeScript, Node.js, Express,
+                                    PostgreSQL, and AWS. Containerized with
+                                    Docker, orchestrated with Kubernetes, and
+                                    deployed through an automated CI/CD pipeline
+                                    using GitHub, CircleCI, GitLab CI, and Helm
+                                    to enable reliable, efficient releases.
                                 </p>
                             </div>
                             <div className="flex gap-stack-sm mt-stack-lg">
@@ -375,8 +354,8 @@ export default function SkillsPage() {
                                     Observability
                                 </h3>
                                 <p className="font-body-md text-body-md text-on-surface-variant">
-                                    Leveraging PostHog and New Relic for real-time
-                                    monitoring and error tracking.
+                                    Leveraging PostHog and New Relic for
+                                    real-time monitoring and error tracking.
                                 </p>
                             </div>
                         </div>
@@ -415,12 +394,17 @@ export default function SkillsPage() {
                 <section className="mt-section-gap p-stack-lg bg-primary-container/10 border border-primary/20 rounded-2xl relative overflow-hidden">
                     <div className="absolute inset-0 z-0 opacity-10"></div>
                     <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-stack-lg">
-                        <div className="max-w-xl text-center md:text-left">
+                        <div className="text-center md:text-left">
                             <h2 className="font-headline-lg text-headline-md md:text-headline-lg mb-stack-sm">
                                 Currently Mastering
                             </h2>
                             <p className="font-body-lg text-body-lg text-on-surface-variant">
-                                I believe in continuous evolution. My current focus is on agentic AI orchestration—designing autonomous, tool-enabled AI systems that coordinate complex workflows, make informed decisions, and integrate seamlessly with modern software platforms.
+                                I believe in continuous evolution. My current
+                                focus is on agentic AI orchestration—designing
+                                autonomous, tool-enabled AI systems that
+                                coordinate complex workflows, make informed
+                                decisions, and integrate seamlessly with modern
+                                software platforms.
                             </p>
                         </div>
                         <div className="flex gap-stack-md">
@@ -433,7 +417,7 @@ export default function SkillsPage() {
                             <div className="px-6 py-4 bg-surface border border-outline-variant rounded-xl flex items-center gap-stack-sm">
                                 <div className="w-3 h-3 bg-primary rounded-full animate-pulse"></div>
                                 <span className="font-label-caps text-label-caps">
-                                   LLMs
+                                    LLMs
                                 </span>
                             </div>
                         </div>

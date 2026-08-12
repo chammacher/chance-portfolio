@@ -3,31 +3,14 @@
 import { useEffect } from "react";
 
 import Link from "next/link";
-
-const engineeringHighlights = [
-    {
-        href: "/highlights#ui-modernization-design-systems",
-        label: "Led a complete UI modernization",
-    },
-    {
-        href: "/highlights#configurable-onboarding-platform",
-        label: "Built a configurable onboarding platform",
-    },
-    {
-        href: "/highlights#designed-reusable-react-design-system",
-        label: "Designed a reusable React design system",
-    },
-    {
-        href: "/highlights#ai-powered-analytics-experience",
-        label: "Built AI-powered dashboards",
-    },
-    {
-        href: "/highlights#led-contractor-development",
-        label: "Led contractor development",
-    },
-];
+import { useTheme } from "next-themes";
+import { engineeringHighlights } from "@/lib/data";
 
 export default function Home() {
+    const { theme, resolvedTheme } = useTheme();
+    const currentTheme =
+        theme === "system" ? (resolvedTheme ?? "light") : (theme ?? "light");
+
     useEffect(() => {
         // Smooth scrolling for in-page anchors.
         const anchors =
@@ -80,10 +63,85 @@ export default function Home() {
         };
     }, []);
 
+    if (currentTheme === "light") {
+        return (
+            <main className="pt-8 pb-section-gap px-gutter max-w-container-max mx-auto">
+                {/* <!-- Hero Section --> */}
+                <header className="mb-xl">
+                    <span className="notion-icon-large">🚀</span>
+                    <h1 className="font-h1 text-h1 md:font-h1 md:text-h1 font-h1-mobile text-h1-mobile mb-sm text-on-surface">
+                        Architecting Digital Excellence
+                    </h1>
+                    <p className="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        Building scalable, elegant, and user-centric software
+                        solutions that bridge the gap between complex
+                        engineering and intuitive design.
+                    </p>
+                </header>
+                {/* <!-- Tech Stack Marquee (Static Notion Style) --> */}
+                <div className="flex flex-wrap gap-sm mb-xl pl-indent">
+                    <span className="tech-pill">React</span>
+                    <span className="tech-pill">TypeScript</span>
+                    <span className="tech-pill">Next.js</span>
+                    <span className="tech-pill">Python</span>
+                    <span className="tech-pill">Node.js</span>
+                    <span className="tech-pill">AWS</span>
+                    <span className="tech-pill">PostgreSQL</span>
+                    <span className="tech-pill">REST APIs</span>
+                    <span className="tech-pill">KUBERNETES</span>
+                    <span className="tech-pill">Docker</span>
+                    <span className="tech-pill">Tailwind css</span>
+                    <span className="tech-pill">Java</span>
+                </div>
+                <div className="notion-divider"></div>
+                {/* <!-- Engineering Highlights --> */}
+                <section className="mb-xl">
+                    <h2 className="font-h2 text-h2 mb-md text-on-surface">
+                        Engineering Highlights
+                    </h2>
+                    <div className="space-y-sm pl-indent">
+                        {engineeringHighlights.map((highlight) => (
+                            <Link className="notion-callout" key={highlight.label} href={highlight.href}>
+                                <span className="notion-callout-icon">✅</span>
+                                <div className="notion-callout-text font-body-md text-body-md">
+                                    {highlight.label}
+                                </div>
+                            </Link>
+                        ))}
+                    </div>
+                </section>
+                <div className="notion-divider"></div>
+                {/* <!-- CTA Section --> */}
+                <section className="mt-xl pl-indent">
+                    <h3 className="font-h3 text-h3 mb-sm text-on-surface">
+                        Let's build something extraordinary
+                    </h3>
+                    <div className="flex flex-col sm:flex-row gap-md mt-md">
+                        <Link className="bg-primary text-on-primary font-body-md text-body-md px-lg py-sm rounded transition-opacity hover:opacity-90 flex items-center justify-center gap-sm"
+                             href="/contact">
+                            <span>Start a Conversation</span>
+                            <span className="material-symbols-outlined text-sm">
+                                arrow_forward
+                            </span>
+                        </Link>
+                        <a className="bg-transparent border border-outline-variant text-on-surface font-body-md text-body-md px-lg py-sm rounded transition-colors hover:bg-surface-variant flex items-center justify-center gap-sm"
+                            download
+                            href="/Chance-Hammacher-Resume.pdf">
+                            <span className="material-symbols-outlined text-sm">
+                                download
+                            </span>
+                            <span>Download Portfolio PDF</span>
+                        </a>
+                    </div>
+                </section>
+            </main>
+        );
+    }
+
     return (
         <div className="font-body-md">
             {/* Top Navigation Bar */}
-            <main className="mt-16">
+            <main className="">
                 {/* Hero Section */}
                 <section className="relative min-h-[80vh] flex items-center pt-section-gap pb-stack-lg hero-gradient overflow-hidden">
                     <div className="max-w-container-max mx-auto px-gutter w-full relative z-10">
@@ -103,7 +161,7 @@ export default function Home() {
                                     </span>
                                     .
                                 </h1>
-                                <p className="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                                <p className="font-body-lg text-body-lg text-on-surface-variant">
                                     Senior Software Engineer specialized in
                                     building high-performance distributed
                                     systems and premium front-end experiences. I
@@ -145,8 +203,12 @@ export default function Home() {
                                     <div className="p-6 font-code-sm text-code-sm text-secondary leading-relaxed">
                                         <pre className="whitespace-pre overflow-x-auto">
                                             <code>
-                                                <span className="text-tertiary">async</span>{" "}
-                                                <span className="text-primary">function</span>{" "}
+                                                <span className="text-tertiary">
+                                                    async
+                                                </span>{" "}
+                                                <span className="text-primary">
+                                                    function
+                                                </span>{" "}
                                                 <span className="text-primary-container">
                                                     initializePortfolio
                                                 </span>
@@ -154,11 +216,15 @@ export default function Home() {
                                                 {"\n"}
                                                 {"    "}
                                                 <span className="text-on-surface-variant">
-                                                    {"// Architecture definition"}
+                                                    {
+                                                        "// Architecture definition"
+                                                    }
                                                 </span>
                                                 {"\n"}
                                                 {"    "}
-                                                <span className="text-tertiary">const</span>{" "}
+                                                <span className="text-tertiary">
+                                                    const
+                                                </span>{" "}
                                                 techStack = [
                                                 <span className="text-secondary-fixed">
                                                     {'"React"'}
@@ -174,13 +240,19 @@ export default function Home() {
                                                 ];
                                                 {"\n\n"}
                                                 {"    "}
-                                                <span className="text-tertiary">const</span>{" "}
+                                                <span className="text-tertiary">
+                                                    const
+                                                </span>{" "}
                                                 projects ={" "}
-                                                <span className="text-tertiary">await</span>{" "}
+                                                <span className="text-tertiary">
+                                                    await
+                                                </span>{" "}
                                                 db.fetchLatest();
                                                 {"\n\n"}
                                                 {"    "}
-                                                <span className="text-primary">return</span>{" "}
+                                                <span className="text-primary">
+                                                    return
+                                                </span>{" "}
                                                 projects.map((p) =&gt; ({"{"})
                                                 {"\n"}
                                                 {"        "}...p,
@@ -189,12 +261,14 @@ export default function Home() {
                                                 <span className="text-secondary-fixed">
                                                     {'"LIVE"'}
                                                 </span>
-                                                ,
-                                                {"\n"}
+                                                ,{"\n"}
                                                 {"        "}performance:{" "}
-                                                <span className="text-tertiary">0.98</span>,
-                                                {"\n"}
-                                                {"    "}{"}"}));
+                                                <span className="text-tertiary">
+                                                    0.98
+                                                </span>
+                                                ,{"\n"}
+                                                {"    "}
+                                                {"}"}));
                                                 {"\n"}
                                                 {"}"}
                                             </code>
@@ -227,7 +301,7 @@ export default function Home() {
                             <h2 className="font-headline-lg text-headline-lg text-on-background">
                                 Engineering Highlights
                             </h2>
-                            <p className="text-on-surface-variant max-w-md">
+                            <p className="text-on-surface-variant">
                                 Key technical milestones and architectural
                                 leadership across diverse engineering domains.
                             </p>

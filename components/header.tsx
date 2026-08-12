@@ -2,9 +2,13 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTheme } from "next-themes";
 
 export default function Header() {
     const pathname = usePathname();
+    const { theme, setTheme, resolvedTheme } = useTheme();
+    const currentTheme = theme === "system" ? resolvedTheme ?? "light" : theme ?? "light";
+
     const navItems = [
         { label: "Home", href: "/" },
         { label: "About", href: "/about" },
@@ -22,34 +26,36 @@ export default function Header() {
     };
 
     return (
-        <header className="fixed top-0 w-full z-50 bg-surface/80 dark:bg-surface/80 backdrop-blur-md border-b border-outline-variant">
-            <div className="max-w-container-max mx-auto px-gutter flex justify-between items-center h-16">
-                <Link className="font-headline-md text-headline-md font-bold text-on-surface" href="/">Chance Hammacher</Link>
+        <header className="w-full sticky top-0 bg-surface border-b border-outline-variant z-50">
+            <div className="flex justify-between items-center max-w-container-max mx-auto px-md h-16">
+                <Link className="font-h3 text-h3 font-bold text-on-surface" href="/">Portfolio</Link>
                 <nav className="hidden md:flex gap-stack-lg items-center">
-                    {navItems.map((item) => {
-                        const active = isActive(item.href);
-
-                        return (
-                            <Link
-                                key={item.href}
-                                aria-current={active ? "page" : undefined}
-                                className={`font-body-md text-body-md transition-colors ${active ? "text-primary font-bold border-b-2 border-primary pb-1" : "text-on-surface-variant hover:text-on-surface"}`}
-                                href={item.href}
-                            >
-                                {item.label}
-                            </Link>
-                        );
-                    })}
+                    {navItems.map((item) => (
+                        <Link
+                            key={item.href}
+                            aria-current={isActive(item.href) ? "page" : undefined}
+                            className={`font-body-md text-body-md transition-colors ${isActive(item.href) ? "text-primary font-bold border-b-2 border-primary pb-1" : "text-on-surface-variant hover:text-on-surface"}`}
+                            href={item.href}
+                        >
+                            {item.label}
+                        </Link>
+                    ))}
                 </nav>
-                <div className="flex items-center gap-stack-md">
-                    <a
-                        className="hidden md:block px-stack-md py-stack-sm rounded-lg border border-outline-variant text-on-surface hover:text-primary transition-all duration-200 font-label-caps text-label-caps"
-                        href="/Chance-Hammacher-Resume.pdf"
-                        download
+                <div className="flex items-center gap-sm">
+                    <button
+                        type="button"
+                        onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
+                        className="text-on-surface-variant hover:text-primary transition-colors duration-150 cursor-pointer p-xs"
+                        aria-label="Toggle theme"
                     >
-                        Resume
-                    </a>
-                    <Link className="bg-primary text-on-primary px-stack-md py-stack-sm rounded-lg hover:brightness-110 active:scale-95 transition-all font-label-caps text-label-caps" href="/contact">Contact</Link>
+                        <span
+                            className="material-symbols-outlined"
+                            data-icon={currentTheme === "dark" ? "light_mode" : "dark_mode"}
+                        />
+                    </button>
+                    <button className="md:hidden text-on-surface-variant p-xs" aria-label="Open menu">
+                        <span className="material-symbols-outlined">menu</span>
+                    </button>
                 </div>
             </div>
         </header>
